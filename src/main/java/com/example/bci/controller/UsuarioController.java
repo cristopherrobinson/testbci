@@ -25,6 +25,20 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    /**
+     * Endpoint de la API para registrar un nuevo usuario.
+     * 
+     * Este método expone un endpoint HTTP POST que permite a los clientes de la API
+     * registrar un nuevo usuario. Utiliza anotaciones para definir la documentación de la API
+     * y las respuestas esperadas. En caso de éxito, devuelve un estado HTTP 201 junto con el usuario
+     * registrado. Si ocurre un error durante el registro, como datos de entrada inválidos, devuelve
+     * un estado HTTP 400 con un mensaje de error.
+     * 
+     * @param usuario El objeto 'Usuario' que se recibe en el cuerpo de la solicitud POST, representando
+     *                los datos del usuario a registrar.
+     * @return ResponseEntity<?> Retorna una respuesta con el usuario registrado y un estado HTTP 201 en caso
+     *         de éxito, o un mensaje de error con un estado HTTP 400 si el registro falla.
+     */
     @Operation(summary = "Registra un nuevo usuario")
     @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente")
     @ApiResponse(responseCode = "400", description = "Usuario no creado")
