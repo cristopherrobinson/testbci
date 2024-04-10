@@ -1,4 +1,4 @@
-package com.example.bci.util;
+package com.example.bci.validators;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,7 +12,7 @@ import lombok.Getter;
 
 @Component
 @Getter
-public class PasswordProperties {
+public class PasswordPolicy {
     
     @Value("${password.pattern}")
     private String passwordPattern;

@@ -18,7 +18,7 @@ import com.example.bci.controller.UsuarioController;
 import com.example.bci.entities.Usuario;
 import com.example.bci.exception.CustomException;
 
-import com.example.bci.util.PasswordProperties;
+import com.example.bci.validators.PasswordPolicy;
 import com.example.bci.service.UsuarioServiceImpl;
 
 @SpringBootTest(classes = BCIApplication.class)
@@ -29,7 +29,7 @@ public class UsuarioTest {
     private UsuarioServiceImpl usuarioService;
 
     @Autowired
-    private PasswordProperties passwordProperties;
+    private PasswordPolicy passwordPolicy;
 
 
     @InjectMocks
@@ -62,7 +62,7 @@ public class UsuarioTest {
 
         Usuario usuario = new Usuario();
         usuario.setPassword("Socius.777");
-        assertEquals(true, passwordProperties.validatePassword(usuario));
+        assertEquals(true, passwordPolicy.validatePassword(usuario));
     
     }
 
@@ -71,7 +71,7 @@ public class UsuarioTest {
 
         Usuario usuario = new Usuario();
         usuario.setPassword("socius777");
-        assertEquals(false, passwordProperties.validatePassword(usuario));
+        assertEquals(false, passwordPolicy.validatePassword(usuario));
     
     }
 

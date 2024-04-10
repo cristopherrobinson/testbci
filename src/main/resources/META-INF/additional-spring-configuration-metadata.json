@@ -8,5 +8,15 @@
     "name": "password.message",
     "type": "java.lang.String",
     "description": "A description for 'password.message'"
+  },
+  {
+    "name": "email.message",
+    "type": "java.lang.String",
+    "description": "A description for 'email.message'"
+  },
+  {
+    "name": "email.pattern",
+    "type": "java.lang.String",
+    "description": "A description for 'email.pattern'"
   }
 ]}
