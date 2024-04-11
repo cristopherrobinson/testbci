@@ -16,6 +16,8 @@ import com.example.bci.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @RestController
@@ -24,6 +26,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
+
 
     /**
      * Endpoint de la API para registrar un nuevo usuario.
@@ -46,8 +51,10 @@ public class UsuarioController {
     public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario) {
         try {
             Usuario usuarioRegistrado = usuarioService.registrarUsuario(usuario);
+            logger.info("Usuario registrado correctamente: ".concat(usuario.getEmail()));
             return new ResponseEntity<>(usuarioRegistrado, HttpStatus.CREATED);
         } catch (CustomException e) {
+            logger.error("Ha ocurrido un error al registrar el usuario: ".concat(e.getMessage()));
             return new ResponseEntity<>(new CustomErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }

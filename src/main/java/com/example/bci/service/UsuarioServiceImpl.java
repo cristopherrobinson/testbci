@@ -26,6 +26,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private EmailPolicy emailPolicy;
 
+
     /**
     * Registra un nuevo usuario en el sistema después de realizar una serie de validaciones.
     *
@@ -42,15 +43,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario registrarUsuario(Usuario usuario) throws CustomException {
         
         if (!emailPolicy.validateEmail(usuario)) {
-            throw new CustomException(emailPolicy.getEmailMessage());
+            throw new CustomException(emailPolicy.getEmailMessage().concat(": ").concat(usuario.getEmail()));
         }
 
         if (!passwordPolicy.validatePassword(usuario)) {
-            throw new CustomException(passwordPolicy.getPasswordMessage());
+            throw new CustomException(passwordPolicy.getPasswordMessage().concat(": ").concat(usuario.getEmail().concat(" pass:")+usuario.getPassword()));
         }
 
         if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
-            throw new CustomException(emailPolicy.getEmailExistMessage());
+            throw new CustomException(emailPolicy.getEmailExistMessage().concat(": ").concat(usuario.getEmail()));
         }
 
         usuario.setLastLogin(LocalDateTime.now());
