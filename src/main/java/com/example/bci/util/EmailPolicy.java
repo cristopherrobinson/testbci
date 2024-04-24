@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.example.bci.entities.Usuario;
+import com.example.bci.entity.Usuario;
 
 import lombok.Getter;
 

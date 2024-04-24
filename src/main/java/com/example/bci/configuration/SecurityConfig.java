@@ -33,7 +33,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeRequests(authorize -> authorize
                 .requestMatchers("/auth/login").permitAll()  // Permitir acceso sin autenticación
+                .requestMatchers("/swagger-ui/**").permitAll()  // Permitir acceso sin autenticación
+                .requestMatchers("/v3/api-docs/**").permitAll()  // Permitir acceso sin autenticación
                 .requestMatchers("/usuario/agregar").authenticated() // Permitir acceso con autenticación
+                .requestMatchers("/usuario/buscar").authenticated() // Permitir acceso con autenticación
                 .anyRequest().authenticated()  // Todos los demás endpoints requieren autenticación
                 )
             .exceptionHandling(handling -> handling

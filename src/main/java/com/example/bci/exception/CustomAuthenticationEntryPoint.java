@@ -2,8 +2,6 @@ package com.example.bci.exception;
 
 import java.io.IOException;
 
-
-
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 

@@ -1,7 +1,6 @@
 package com.example.bci.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.example.bci.dto.AuthRequest;
 import com.example.bci.dto.AuthResponse;
+import com.example.bci.exception.CustomException;
 import com.example.bci.service.UsuarioService;
 import com.example.bci.util.TokenGenerator;
 
@@ -27,31 +27,16 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    /*@PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody AuthRequest authRequest) {
-        try {
-            // Con fines de prueba simulamos una validación de credenciales de un admin que podra añadir usuarios
-            if (("admin".equals(authRequest.getUsername()) && "password".equals(authRequest.getPassword())) || 
-            usuarioService.loginUsuario(authRequest.getUsername(), authRequest.getPassword())) {
-                String token = TokenGenerator.generateToken(authRequest.getUsername());
-                return ResponseEntity.ok(new AuthResponse(token));
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la solicitud");
-        }
-    }*/
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) throws CustomException {
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         
         String jwt = TokenGenerator.generateToken(request.getUsername());
+        usuarioService.lastLogin(request, jwt);
         return ResponseEntity.ok(new AuthResponse(jwt));
     }
     

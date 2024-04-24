@@ -1,4 +1,4 @@
-package com.example.bci.entities;
+package com.example.bci.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

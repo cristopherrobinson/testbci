@@ -14,6 +14,7 @@ Para configurar este proyecto en tu entorno local, sigue estos pasos:
 1. Clona el repositorio en tu máquina local.
 2. Asegúrate de tener instalado JDK 17 y Maven.
 3. Abre el proyecto en tu IDE preferido, asegurándote de que reconozca el sistema de construcción utilizado (Maven).
+4. Prueba desde swagger http://localhost:8080/swagger-ui/index.html o desde tu cliente http favorito.
 
 ## Ejecución
 

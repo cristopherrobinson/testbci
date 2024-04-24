@@ -1,6 +1,6 @@
 package com.example.bci.service;
 
-import com.example.bci.entities.Usuario;
+import com.example.bci.entity.Usuario;
 import com.example.bci.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

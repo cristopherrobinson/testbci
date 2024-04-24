@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
-import com.example.bci.entities.Usuario;
+import com.example.bci.dto.UserRequest;
+import com.example.bci.entity.Usuario;
 import com.example.bci.exception.CustomErrorResponse;
 import com.example.bci.exception.CustomException;
 import com.example.bci.service.UsuarioService;
@@ -19,7 +21,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * Con fines de la prueba se usan request en español
+ */
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -44,7 +48,8 @@ public class UsuarioController {
      * @return ResponseEntity<?> Retorna una respuesta con el usuario registrado y un estado HTTP 201 en caso
      *         de éxito, o un mensaje de error con un estado HTTP 400 si el registro falla.
      */
-    @Operation(summary = "Registra un nuevo usuario")
+    @Operation(summary = "Registra un nuevo usuario",
+               security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente")
     @ApiResponse(responseCode = "400", description = "Usuario no creado")
     @PostMapping("/agregar")
@@ -58,6 +63,33 @@ public class UsuarioController {
             return new ResponseEntity<>(new CustomErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+    * Busca un usuario por email proporcionado en la petición.
+    * 
+    * Este método es accesible mediante una llamada POST al endpoint /buscar.
+    * Requiere autenticación (token Bearer) para ser accedido. Al recibir una solicitud,
+    * intenta buscar un usuario utilizando el email proporcionado en el objeto UserRequest.
+    * Si el usuario se encuentra, se retorna la información del usuario junto con un código de estado HTTP 201.
+    * Si no se encuentra el usuario, se lanza una CustomException y se retorna un mensaje de error con un código de estado HTTP 400.
+    *
+    * @param userRequest cuerpo de la solicitud que contiene el email del usuario a buscar.
+    * @return Retorna un ResponseEntity que puede contener un Usuario si la búsqueda fue exitosa o un CustomErrorResponse si ocurre un error.
+    */
+    @Operation(summary = "Busca un usuario por email",
+               security = @SecurityRequirement(name = "bearerAuth"))
+    @PostMapping("/buscar")
+    public ResponseEntity<?> buscarUsuarioPorEmail(@RequestBody UserRequest userRequest) {
+        
+        try{
+            Usuario _usuario = usuarioService.buscarUsuario(userRequest);
+            return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
+        }catch(CustomException e){
+            return new ResponseEntity<>(new CustomErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    
 
 
     

@@ -1,4 +1,4 @@
-package com.example.bci.entities;
+package com.example.bci.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;

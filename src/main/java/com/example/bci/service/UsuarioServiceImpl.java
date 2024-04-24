@@ -1,14 +1,15 @@
 package com.example.bci.service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.bci.entities.Usuario;
+import com.example.bci.dto.AuthRequest;
+import com.example.bci.dto.UserRequest;
+import com.example.bci.entity.Usuario;
 import com.example.bci.exception.CustomException;
 
 import com.example.bci.repository.UsuarioRepository;
@@ -65,6 +66,47 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
+
+
+    /**
+    * Actualiza el último login de un usuario y guarda el token JWT.
+    * 
+    * Este método busca al usuario por email usando el username proporcionado en el AuthRequest.
+    * Si el usuario no se encuentra, lanza una excepción CustomException.
+    * Si el usuario existe, actualiza su token JWT y la fecha de último acceso,
+    * luego guarda los cambios en la base de datos.
+    *
+    * @param authRequest contiene información de la solicitud de autenticación, incluyendo el username.
+    * @param jwt el token JWT generado que será asociado con el usuario.
+    * @return Usuario actualizado con la nueva información de token y último acceso.
+    * @throws CustomException si el usuario no se encuentra en la base de datos.
+    */
+    @Override
+    public Usuario lastLogin(AuthRequest authRequest, String jwt) throws CustomException {
+        Usuario usuario = usuarioRepository.findByEmail(authRequest.getUsername())
+        .orElseThrow(() -> new CustomException("Ultimo login actualizado para el usuario con email: ".concat(authRequest.getUsername())));
+        usuario.setToken(jwt);
+        usuario.setLastLogin(LocalDateTime.now());
+        return usuarioRepository.save(usuario);
+    }
+
+
+    /**
+    * Busca un usuario en la base de datos por su dirección de correo electrónico.
+    * 
+    * Este método intenta encontrar un usuario existente en la base de datos utilizando el email proporcionado
+    * en el objeto Usuario. Si no se encuentra ningún usuario con ese email, se lanza una CustomException.
+    *
+    * @param usuario objeto Usuario que contiene el email usado para la búsqueda.
+    * @return Usuario encontrado con el email proporcionado.
+    * @throws CustomException si no se encuentra ningún usuario con el email proporcionado.
+    */
+    @Override
+    public Usuario buscarUsuario(UserRequest userRequest) throws CustomException {
+        return usuarioRepository.findByEmail(userRequest.getEmail()).orElseThrow(() -> new CustomException("Usuario no encontrado con email: ".concat(userRequest.getEmail())));
+    }
+
+
 
 
 

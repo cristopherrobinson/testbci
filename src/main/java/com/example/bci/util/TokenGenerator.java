@@ -13,6 +13,9 @@ import javax.crypto.SecretKey;
  */
 public class TokenGenerator {
 
+    /*
+     * Este secreto deberia estar almacenado en un llavero de claves
+     */
     private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 ;
     @SuppressWarnings("deprecation")

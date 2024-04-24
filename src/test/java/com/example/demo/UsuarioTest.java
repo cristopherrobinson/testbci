@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.example.bci.BCIApplication;
 import com.example.bci.controller.UsuarioController;
-import com.example.bci.entities.Usuario;
+import com.example.bci.entity.Usuario;
 import com.example.bci.exception.CustomException;
 import com.example.bci.service.UsuarioServiceImpl;
 import com.example.bci.util.PasswordPolicy;
