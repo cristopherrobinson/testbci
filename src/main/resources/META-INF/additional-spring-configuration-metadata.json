@@ -18,5 +18,15 @@
     "name": "email.pattern",
     "type": "java.lang.String",
     "description": "A description for 'email.pattern'"
+  },
+  {
+    "name": "email.default",
+    "type": "java.lang.String",
+    "description": "A description for 'email.default'"
+  },
+  {
+    "name": "email.exist",
+    "type": "java.lang.String",
+    "description": "A description for 'email.exist'"
   }
 ]}

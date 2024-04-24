@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bci.entities.CustomErrorResponse;
 import com.example.bci.entities.Usuario;
+import com.example.bci.exception.CustomErrorResponse;
 import com.example.bci.exception.CustomException;
 import com.example.bci.service.UsuarioService;
 
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class UsuarioController {
     @Operation(summary = "Registra un nuevo usuario")
     @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente")
     @ApiResponse(responseCode = "400", description = "Usuario no creado")
-    @PostMapping
+    @PostMapping("/agregar")
     public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario) {
         try {
             Usuario usuarioRegistrado = usuarioService.registrarUsuario(usuario);
@@ -55,8 +55,11 @@ public class UsuarioController {
             return new ResponseEntity<>(usuarioRegistrado, HttpStatus.CREATED);
         } catch (CustomException e) {
             logger.error("Ha ocurrido un error al registrar el usuario: ".concat(e.getMessage()));
-            return new ResponseEntity<>(new CustomErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new CustomErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    
 
 }

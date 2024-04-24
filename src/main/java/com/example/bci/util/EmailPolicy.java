@@ -1,4 +1,4 @@
-package com.example.bci.validators;
+package com.example.bci.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

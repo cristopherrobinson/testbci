@@ -1,17 +1,19 @@
 package com.example.bci.service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.bci.entities.Usuario;
 import com.example.bci.exception.CustomException;
 
 import com.example.bci.repository.UsuarioRepository;
-import com.example.bci.validators.EmailPolicy;
-import com.example.bci.validators.PasswordPolicy;
+import com.example.bci.util.EmailPolicy;
+import com.example.bci.util.PasswordPolicy;
 
 
 @Service
@@ -25,6 +27,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private EmailPolicy emailPolicy;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     /**
@@ -57,8 +62,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setLastLogin(LocalDateTime.now());
         usuario.setIsactive(true);
         usuario.setToken(UUID.randomUUID().toString());
-
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
+
+
 
 }

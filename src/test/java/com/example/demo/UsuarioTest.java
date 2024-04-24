@@ -17,9 +17,8 @@ import com.example.bci.BCIApplication;
 import com.example.bci.controller.UsuarioController;
 import com.example.bci.entities.Usuario;
 import com.example.bci.exception.CustomException;
-
-import com.example.bci.validators.PasswordPolicy;
 import com.example.bci.service.UsuarioServiceImpl;
+import com.example.bci.util.PasswordPolicy;
 
 @SpringBootTest(classes = BCIApplication.class)
 public class UsuarioTest {
