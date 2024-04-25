@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.example.bci.entity.Usuario;
+import com.example.bci.entity.UsuarioEntity;
 
 import lombok.Getter;
 
@@ -33,7 +33,7 @@ public class PasswordPolicy {
     * @return boolean Retorna 'true' si la contraseña cumple con el patrón, de lo
     * contrario retorna 'false'.
     */
-    public boolean validatePassword(Usuario usuario) {
+    public boolean validatePassword(UsuarioEntity usuario) {
 
         Pattern patternPassword = Pattern.compile(passwordPattern);
         Matcher matcherPassword = patternPassword.matcher(usuario.getPassword());

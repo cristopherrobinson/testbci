@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.example.bci.entity.Usuario;
+import com.example.bci.entity.UsuarioEntity;
 
 import lombok.Getter;
 
@@ -35,7 +35,7 @@ public class EmailPolicy {
      * @return boolean Retorna 'true' si el correo electrónico cumple con el patrón establecido, de lo
      * contrario retorna 'false'.
      */
-    public boolean validateEmail(Usuario usuario) {
+    public boolean validateEmail(UsuarioEntity usuario) {
 
         Pattern patternPassword = Pattern.compile(emailPattern);
         Matcher matcherPassword = patternPassword.matcher(usuario.getEmail());

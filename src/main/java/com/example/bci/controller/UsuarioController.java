@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
-import com.example.bci.dto.UserRequest;
-import com.example.bci.entity.Usuario;
+import com.example.bci.dto.UserRequestDto;
+import com.example.bci.entity.UsuarioEntity;
 import com.example.bci.exception.CustomErrorResponse;
 import com.example.bci.exception.CustomException;
 import com.example.bci.service.UsuarioService;
@@ -53,9 +53,9 @@ public class UsuarioController {
     @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente")
     @ApiResponse(responseCode = "400", description = "Usuario no creado")
     @PostMapping("/agregar")
-    public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> registrarUsuario(@RequestBody UsuarioEntity usuario) {
         try {
-            Usuario usuarioRegistrado = usuarioService.registrarUsuario(usuario);
+            UsuarioEntity usuarioRegistrado = usuarioService.registrarUsuario(usuario);
             logger.info("Usuario registrado correctamente: ".concat(usuario.getEmail()));
             return new ResponseEntity<>(usuarioRegistrado, HttpStatus.CREATED);
         } catch (CustomException e) {
@@ -79,11 +79,11 @@ public class UsuarioController {
     @Operation(summary = "Busca un usuario por email",
                security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping("/buscar")
-    public ResponseEntity<?> buscarUsuarioPorEmail(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> buscarUsuarioPorEmail(@RequestBody UserRequestDto userRequest) {
         
         try{
-            Usuario _usuario = usuarioService.buscarUsuario(userRequest);
-            return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
+            UsuarioEntity _usuario = usuarioService.buscarUsuario(userRequest);
+            return new ResponseEntity<>(_usuario, HttpStatus.OK);
         }catch(CustomException e){
             return new ResponseEntity<>(new CustomErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
         }

@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.bci.dto.AuthRequest;
-import com.example.bci.dto.UserRequest;
-import com.example.bci.entity.Usuario;
+import com.example.bci.dto.AuthRequestDto;
+import com.example.bci.dto.UserRequestDto;
+import com.example.bci.entity.UsuarioEntity;
 import com.example.bci.exception.CustomException;
 
 import com.example.bci.repository.UsuarioRepository;
@@ -46,7 +46,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     * @throws CustomException Si alguna de las validaciones falla, se lanza una excepción con un mensaje específico.
     */
     @Override
-    public Usuario registrarUsuario(Usuario usuario) throws CustomException {
+    public UsuarioEntity registrarUsuario(UsuarioEntity usuario) throws CustomException {
         
         if (!emailPolicy.validateEmail(usuario)) {
             throw new CustomException(emailPolicy.getEmailMessage().concat(": ").concat(usuario.getEmail()));
@@ -82,8 +82,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     * @throws CustomException si el usuario no se encuentra en la base de datos.
     */
     @Override
-    public Usuario lastLogin(AuthRequest authRequest, String jwt) throws CustomException {
-        Usuario usuario = usuarioRepository.findByEmail(authRequest.getUsername())
+    public UsuarioEntity lastLogin(AuthRequestDto authRequest, String jwt) throws CustomException {
+        UsuarioEntity usuario = usuarioRepository.findByEmail(authRequest.getUsername())
         .orElseThrow(() -> new CustomException("Ultimo login actualizado para el usuario con email: ".concat(authRequest.getUsername())));
         usuario.setToken(jwt);
         usuario.setLastLogin(LocalDateTime.now());
@@ -102,7 +102,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     * @throws CustomException si no se encuentra ningún usuario con el email proporcionado.
     */
     @Override
-    public Usuario buscarUsuario(UserRequest userRequest) throws CustomException {
+    public UsuarioEntity buscarUsuario(UserRequestDto userRequest) throws CustomException {
         return usuarioRepository.findByEmail(userRequest.getEmail()).orElseThrow(() -> new CustomException("Usuario no encontrado con email: ".concat(userRequest.getEmail())));
     }
 

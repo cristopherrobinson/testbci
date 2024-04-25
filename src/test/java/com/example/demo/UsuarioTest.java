@@ -15,10 +15,11 @@ import org.springframework.http.ResponseEntity;
 
 import com.example.bci.BCIApplication;
 import com.example.bci.controller.UsuarioController;
-import com.example.bci.entity.Usuario;
+import com.example.bci.entity.UsuarioEntity;
 import com.example.bci.exception.CustomException;
 import com.example.bci.service.UsuarioServiceImpl;
 import com.example.bci.util.PasswordPolicy;
+import com.intuit.karate.junit5.Karate;
 
 @SpringBootTest(classes = BCIApplication.class)
 public class UsuarioTest {
@@ -42,12 +43,12 @@ public class UsuarioTest {
     @Test
     void registrarUsuarioUsuarioValidoDevuelveUsuario() throws CustomException {
         
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         usuario.setName("Cristopher");
         usuario.setEmail("cristopher.canoles@sociuschile.cl");
         usuario.setPassword("Socius.777");
 
-        when(usuarioService.registrarUsuario(any(Usuario.class))).thenReturn(usuario);
+        when(usuarioService.registrarUsuario(any(UsuarioEntity.class))).thenReturn(usuario);
 
         ResponseEntity<?> response = usuarioController.registrarUsuario(usuario);
 
@@ -59,8 +60,8 @@ public class UsuarioTest {
     @Test
     void validatePolicyPasswordSuccess() throws CustomException {
 
-        Usuario usuario = new Usuario();
-        usuario.setPassword("Socius.777");
+        UsuarioEntity usuario = new UsuarioEntity();
+        usuario.setPassword("Socius777");
         assertEquals(true, passwordPolicy.validatePassword(usuario));
     
     }
@@ -68,10 +69,20 @@ public class UsuarioTest {
     @Test
     void validatePolicyPasswordError() throws CustomException {
 
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         usuario.setPassword("socius777");
         assertEquals(false, passwordPolicy.validatePassword(usuario));
     
+    }
+
+    @Karate.Test
+    Karate testLogin() {
+        return Karate.run("authentication").relativeTo(getClass());
+    }
+
+    @Karate.Test
+    Karate testUsuarios() {
+        return Karate.run("password").relativeTo(getClass());
     }
 
 
