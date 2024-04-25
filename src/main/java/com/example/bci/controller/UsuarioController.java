@@ -82,9 +82,11 @@ public class UsuarioController {
     public ResponseEntity<?> buscarUsuarioPorEmail(@RequestBody UserRequestDto userRequest) {
         
         try{
+            logger.info("Buscando usuario: ".concat(userRequest.getEmail()));
             UsuarioEntity _usuario = usuarioService.buscarUsuario(userRequest);
             return new ResponseEntity<>(_usuario, HttpStatus.OK);
         }catch(CustomException e){
+            logger.error("Usuario no encontrado: ".concat(e.getMessage()));
             return new ResponseEntity<>(new CustomErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
         }
 
