@@ -66,3 +66,11 @@ Feature: Test de endpoints de usuario que requieren autenticación JWT
     When method post
     Then status 200
     And match response contains { email: 'cris@bci.cl' }
+
+  Scenario: Buscar un usuario no existente con token JWT
+    Given path 'usuario/buscar'
+    And header Authorization = 'Bearer ' + token
+    And request { "email": "cris2@bci.cl" }
+    When method post
+    Then status 404
+    And match response contains { description: 'Usuario no encontrado con email: cris2@bci.cl' }

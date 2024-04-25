@@ -85,7 +85,7 @@ public class UsuarioController {
             UsuarioEntity _usuario = usuarioService.buscarUsuario(userRequest);
             return new ResponseEntity<>(_usuario, HttpStatus.OK);
         }catch(CustomException e){
-            return new ResponseEntity<>(new CustomErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new CustomErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
         }
 
     }
